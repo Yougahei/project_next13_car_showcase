@@ -453,7 +453,7 @@ export const footerLinks = [
 </details>
 
 <details>
-<summary><code>tailwind.config.js</code></summary>
+<summary><code>tailwind.config.ts</code></summary>
 
 ```javascript
 /** @type {import('tailwindcss').Config} */
