@@ -30,7 +30,7 @@ export default function CustomFilter({ title, options }: CustomFilterProps) {
       >
         <div className='relative w-fit z-10'>
           {/* Button for the listbox */}
-          <Listbox.Button className='custom-filter__btn'>
+          <Listbox.Button className='relative w-full min-w-[127px] flex justify-between items-center cursor-default rounded-lg bg-white py-2 px-3 text-left shadow-md sm:text-sm border'>
             <span className='block truncate'>{selected.title}</span>
             <Image src='/chevron-up-down.svg' width={20} height={20} className='ml-4 object-contain' alt='chevron_up-down' />
           </Listbox.Button>
@@ -41,7 +41,7 @@ export default function CustomFilter({ title, options }: CustomFilterProps) {
             leaveFrom='opacity-100'
             leaveTo='opacity-0'
           >
-            <Listbox.Options className='custom-filter__options'>
+            <Listbox.Options className='absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm'>
               {/* Map over the options and display them as listbox options */}
               {options.map((option) => (
                 <Listbox.Option

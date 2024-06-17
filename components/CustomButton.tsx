@@ -1,11 +1,12 @@
 "use client";
 
 import Image from "next/image";
+import { Button } from "./ui/button";
 
 import { CustomButtonProps } from "@types";
 
-const Button = ({ isDisabled, btnType, containerStyles, textStyles, title, rightIcon, handleClick }: CustomButtonProps) => (
-  <button
+const CustomButton = ({ isDisabled, btnType, containerStyles, textStyles, title, rightIcon, handleClick }: CustomButtonProps) => (
+  <Button
     disabled={isDisabled}
     type={btnType || "button"}
     className={`custom-btn ${containerStyles}`}
@@ -22,7 +23,7 @@ const Button = ({ isDisabled, btnType, containerStyles, textStyles, title, right
         />
       </div>
     )}
-  </button>
+  </Button>
 );
 
-export default Button;
+export default CustomButton;

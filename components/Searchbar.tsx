@@ -5,9 +5,11 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import SearchManufacturer from "./SearchManufacturer";
+import {Button} from "@components/ui/button";
+import {Input} from "@components/ui/input";
 
 const SearchButton = ({ otherClasses }: { otherClasses: string }) => (
-  <button type='submit' className={`-ml-3 z-10 ${otherClasses}`}>
+  <Button type='submit' className={`-ml-3 z-10 ${otherClasses}`} variant={null}>
     <Image
       src={"/magnifying-glass.svg"}
       alt={"magnifying glass"}
@@ -15,7 +17,7 @@ const SearchButton = ({ otherClasses }: { otherClasses: string }) => (
       height={40}
       className='object-contain'
     />
-  </button>
+  </Button>
 );
 
 const SearchBar = () => {
@@ -59,15 +61,15 @@ const SearchBar = () => {
   };
 
   return (
-    <form className='searchbar' onSubmit={handleSearch}>
-      <div className='searchbar__item'>
+    <form className='flex items-center justify-start max-sm:flex-col w-full relative max-sm:gap-4 max-w-3xl' onSubmit={handleSearch}>
+      <div className='flex-1 max-sm:w-full flex justify-start items-center relative'>
         <SearchManufacturer
           manufacturer={manufacturer}
           setManuFacturer={setManuFacturer}
         />
         <SearchButton otherClasses='sm:hidden' />
       </div>
-      <div className='searchbar__item'>
+      <div className='flex-1 max-sm:w-full flex justify-start items-center relative'>
         <Image
           src='/model-icon.png'
           width={25}
@@ -75,13 +77,13 @@ const SearchBar = () => {
           className='absolute w-[20px] h-[20px] ml-4'
           alt='car model'
         />
-        <input
+        <Input
           type='text'
           name='model'
           value={model}
           onChange={(e) => setModel(e.target.value)}
-          placeholder='Tiguan...'
-          className='searchbar__input'
+          placeholder='        Tiguan...'
+          className='w-full h-[48px] pl-12 p-4 bg-light-white rounded-r-full max-sm:rounded-full outline-none cursor-pointer text-sm'
         />
         <SearchButton otherClasses='sm:hidden' />
       </div>
