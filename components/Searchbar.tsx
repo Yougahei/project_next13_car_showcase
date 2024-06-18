@@ -82,8 +82,8 @@ const SearchBar = () => {
           name='model'
           value={model}
           onChange={(e) => setModel(e.target.value)}
-          placeholder='        Tiguan...'
-          className='w-full h-[48px] pl-12 p-4 bg-light-white rounded-r-full max-sm:rounded-full outline-none cursor-pointer text-sm'
+          placeholder='Tiguan...'
+          className='w-full h-[48px] p-4 bg-light-white rounded-r-full max-sm:rounded-full outline-none cursor-pointer text-sm pl-12'
         />
         <SearchButton otherClasses='sm:hidden' />
       </div>

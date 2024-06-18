@@ -1,13 +1,15 @@
-import {fetchCars} from "@utils";
-import {HomeProps} from "@types";
-import Hero from "@components/Hero";
-import SearchBar from "@components/Searchbar";
-import ShowMore from "@components/ShowMore";
-import {fuels, yearsOfProduction} from "@constants";
-import CustomFilter from "@components/CustomFilter";
-import CarCard from "@components/CarCard";
+"use client";
 
-export default async function Home({searchParams}: HomeProps) {
+import {HomeProps} from "@types";
+import {fetchCars} from "@utils";
+import SearchBar from "@components/Searchbar";
+import CustomFilter from "@components/CustomFilter";
+import {fuels, yearsOfProduction} from "@constants";
+import CarCard from "@components/CarCard";
+import ShowMore from "@components/ShowMore";
+
+
+export default async function CarPage({searchParams}: HomeProps) {
     const allCars = await fetchCars({
         manufacturer: searchParams.manufacturer || "",
         year: searchParams.year || 2022,
@@ -20,7 +22,6 @@ export default async function Home({searchParams}: HomeProps) {
 
     return (
         <main className='overflow-hidden'>
-            <Hero/>
             <div className='mt-12 padding-x padding-y max-width px-20' id='discover'>
                 <div className='flex flex-col items-start justify-start gap-y-2.5 text-black-100'>
                     <h1 className='text-4xl font-extrabold'>Car Catalogue</h1>
@@ -30,7 +31,7 @@ export default async function Home({searchParams}: HomeProps) {
                 <div className='mt-12 w-full flex-between items-center flex-wrap gap-5'>
                     <SearchBar/>
 
-                    <div className='flex justify-start flex-wrap items-center gap-2'>
+                    <div className='flex justify-start flex-wrap items-center gap-2 mt-3'>
                         <CustomFilter title='fuel' options={fuels}/>
                         <CustomFilter title='year' options={yearsOfProduction}/>
                     </div>
@@ -38,7 +39,8 @@ export default async function Home({searchParams}: HomeProps) {
 
                 {!isDataEmpty ? (
                     <section>
-                        <div className='grid 2xl:grid-cols-4 xl:grid-cols-3 md:grid-cols-2 grid-cols-1 w-full gap-8 pt-14'>
+                        <div
+                            className='grid 2xl:grid-cols-4 xl:grid-cols-3 md:grid-cols-2 grid-cols-1 w-full gap-8 pt-14'>
                             {allCars?.map((car) => (
                                 <CarCard car={car}/>
                             ))}

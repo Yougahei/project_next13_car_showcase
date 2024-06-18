@@ -5,9 +5,8 @@ import Image from "next/image";
 
 import { calculateCarRent, generateCarImageUrl } from "@utils";
 import { CarProps } from "@types";
-import CustomButton from "./CustomButton";
-import CarDetails from "./CarDetails";
-import {Card} from "@components/ui/card";
+import CustomButton from "../CustomButton";
+import CarDetails from "../CarDetails";
 
 interface CarCardProps {
   car: CarProps;
@@ -21,7 +20,7 @@ const CarCard = ({ car }: CarCardProps) => {
   const carRent = calculateCarRent(city_mpg, year);
 
   return (
-    <Card className="flex flex-col p-6 justify-center items-start text-black-100 bg-primary-blue-100 hover:bg-white hover:shadow-md rounded-3xl group">
+    <div className="flex flex-col p-6 justify-center items-start text-black-100 bg-primary-blue-100 hover:bg-white hover:shadow-md rounded-3xl group">
       <div className="w-full flex justify-between items-start gap-2">
         <h2 className="text-[22px] leading-[26px] font-bold capitalize">
           {make} {model}
@@ -68,7 +67,7 @@ const CarCard = ({ car }: CarCardProps) => {
       </div>
 
       <CarDetails isOpen={isOpen} closeModal={() => setIsOpen(false)} car={car} />
-    </Card>
+    </div>
   );
 };
 

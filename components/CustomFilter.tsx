@@ -1,71 +1,87 @@
 "use client";
 
-import { Fragment, useState } from "react";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { Listbox, Transition } from "@headlessui/react";
+import {useState} from "react";
+import {useRouter} from "next/navigation";
 
-import { CustomFilterProps } from "@types";
-import { updateSearchParams } from "@utils";
+import {CustomFilterProps} from "@types";
+import {updateSearchParams} from "@utils";
 
-export default function CustomFilter({ title, options }: CustomFilterProps) {
-  const router = useRouter();
-  const [selected, setSelected] = useState(options[0]); // State for storing the selected option
+import {Check, ChevronsUpDown} from "lucide-react"
 
-  // update the URL search parameters and navigate to the new URL
-  const handleUpdateParams = (e: { title: string; value: string }) => {
-    const newPathName = updateSearchParams(title, e.value.toLowerCase());
+import {cn} from "@/lib/utils"
+import {Button} from "@/components/ui/button"
+import {
+    Command,
+    CommandEmpty,
+    CommandGroup,
+    CommandInput,
+    CommandItem,
+    CommandList,
+} from "@/components/ui/command"
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover"
+import {type} from "node:os";
 
-    router.push(newPathName);
-  };
+export default function CustomFilter({title, options}: CustomFilterProps) {
+    const router = useRouter();
+    const [open, setOpen] = useState(false)
+    const [value, setValue] = useState(options[0].value)
 
-  return (
-    <div className='w-fit'>
-      <Listbox
-        value={selected}
-        onChange={(e) => {
-          setSelected(e); // Update the selected option in state
-          handleUpdateParams(e); // Update the URL search parameters and navigate to the new URL
-        }}
-      >
-        <div className='relative w-fit z-10'>
-          {/* Button for the listbox */}
-          <Listbox.Button className='relative w-full min-w-[127px] flex justify-between items-center cursor-default rounded-lg bg-white py-2 px-3 text-left shadow-md sm:text-sm border'>
-            <span className='block truncate'>{selected.title}</span>
-            <Image src='/chevron-up-down.svg' width={20} height={20} className='ml-4 object-contain' alt='chevron_up-down' />
-          </Listbox.Button>
-          {/* Transition for displaying the options */}
-          <Transition
-            as={Fragment} // group multiple elements without introducing an additional DOM node i.e., <></>
-            leave='transition ease-in duration-100'
-            leaveFrom='opacity-100'
-            leaveTo='opacity-0'
-          >
-            <Listbox.Options className='absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm'>
-              {/* Map over the options and display them as listbox options */}
-              {options.map((option) => (
-                <Listbox.Option
-                  key={option.title}
-                  className={({ active }) =>
-                    `relative cursor-default select-none py-2 px-4 ${
-                      active ? "bg-primary-blue text-white" : "text-gray-900"
-                    }`
-                  }
-                  value={option}
-                >
-                  {({ selected }) => (
-                    <>
-                      <span className={`block truncate ${selected ? "font-medium" : "font-normal"}`} >
-                        {option.title}
-                      </span>
-                    </>
-                  )}
-                </Listbox.Option>
-              ))}
-            </Listbox.Options>
-          </Transition>
+    // update the URL search parameters and navigate to the new URL
+    const handleUpdateParams = (e: string ) => {
+        const newPathName = updateSearchParams(title, e.toLowerCase());
+        router.push(newPathName);
+    };
+
+    return (
+        <div className='w-fit'>
+            <Popover open={open} onOpenChange={setOpen}>
+                <PopoverTrigger asChild>
+                    <Button
+                        variant="outline"
+                        role="combobox"
+                        aria-expanded={open}
+                        className="w-[200px] justify-between"
+                    >
+                        {value
+                            ? options.find((option) => option.value === value)?.title
+                            : value === ""? options[0].title : "Select an option..."}
+                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50"/>
+                    </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-[200px] p-0">
+                    <Command>
+                        <CommandInput placeholder="Search options..."/>
+                        <CommandList>
+                            <CommandEmpty>No options found.</CommandEmpty>
+                            <CommandGroup>
+                                {options.map((option) => (
+                                    <CommandItem
+                                        key={option.value}
+                                        value={option.value}
+                                        onSelect={(currentValue) => {
+                                            setValue(currentValue === value ? "" : currentValue)
+                                            handleUpdateParams(currentValue)
+                                            setOpen(false)
+                                        }}
+                                    >
+                                        <Check
+                                            className={cn(
+                                                "mr-2 h-4 w-4",
+                                                value === option.value ? "opacity-100" : "opacity-0"
+                                            )}
+                                        />
+                                        {option.title}
+                                    </CommandItem>
+                                ))}
+                            </CommandGroup>
+                        </CommandList>
+                    </Command>
+                </PopoverContent>
+            </Popover>
         </div>
-      </Listbox>
-    </div>
-  );
+    );
 }
